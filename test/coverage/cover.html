@@ -1,0 +1,1596 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>app: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/ricardominze/gobootrap/app/customer_controller.go (0.0%)</option>
+				
+				<option value="file1">github.com/ricardominze/gobootrap/core/domain/account/entity/account.go (96.0%)</option>
+				
+				<option value="file2">github.com/ricardominze/gobootrap/core/domain/account/service/account_service.go (87.9%)</option>
+				
+				<option value="file3">github.com/ricardominze/gobootrap/core/domain/account/usecase/account_usecase_balance.go (87.5%)</option>
+				
+				<option value="file4">github.com/ricardominze/gobootrap/core/domain/account/usecase/account_usecase_close.go (7.1%)</option>
+				
+				<option value="file5">github.com/ricardominze/gobootrap/core/domain/account/usecase/account_usecase_deposit.go (78.6%)</option>
+				
+				<option value="file6">github.com/ricardominze/gobootrap/core/domain/account/usecase/account_usecase_get.go (87.5%)</option>
+				
+				<option value="file7">github.com/ricardominze/gobootrap/core/domain/account/usecase/account_usecase_open.go (86.7%)</option>
+				
+				<option value="file8">github.com/ricardominze/gobootrap/core/domain/account/usecase/account_usecase_taxes.go (78.6%)</option>
+				
+				<option value="file9">github.com/ricardominze/gobootrap/core/domain/account/usecase/account_usecase_transfer.go (76.2%)</option>
+				
+				<option value="file10">github.com/ricardominze/gobootrap/core/domain/account/usecase/account_usecase_withdraw.go (78.6%)</option>
+				
+				<option value="file11">github.com/ricardominze/gobootrap/core/domain/customer/entity/customer.go (60.0%)</option>
+				
+				<option value="file12">github.com/ricardominze/gobootrap/core/domain/customer/service/customer_service.go (68.4%)</option>
+				
+				<option value="file13">github.com/ricardominze/gobootrap/core/domain/customer/usecase/customer_usecase_create.go (81.8%)</option>
+				
+				<option value="file14">github.com/ricardominze/gobootrap/core/domain/customer/usecase/customer_usecase_get.go (12.5%)</option>
+				
+				<option value="file15">github.com/ricardominze/gobootrap/core/domain/customer/usecase/customer_usecase_save.go (0.0%)</option>
+				
+				<option value="file16">github.com/ricardominze/gobootrap/core/domain/customer/wire_gen.go (0.0%)</option>
+				
+				<option value="file17">github.com/ricardominze/gobootrap/core/valueobject/address.go (0.0%)</option>
+				
+				<option value="file18">github.com/ricardominze/gobootrap/infra/adapter/account_repository.go (86.5%)</option>
+				
+				<option value="file19">github.com/ricardominze/gobootrap/infra/adapter/customer_repository.go (47.5%)</option>
+				
+				<option value="file20">github.com/ricardominze/gobootrap/infra/middleware/telemetry.go (0.0%)</option>
+				
+				<option value="file21">github.com/ricardominze/gobootrap/infra/util/handler_map.go (0.0%)</option>
+				
+				<option value="file22">github.com/ricardominze/gobootrap/infra/util/struct_map.go (0.0%)</option>
+				
+				<option value="file23">github.com/ricardominze/gobootrap/main.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package app
+
+import (
+        "net/http"
+
+        customer_entity "github.com/ricardominze/gobootrap/core/domain/customer/entity"
+        customer_service "github.com/ricardominze/gobootrap/core/domain/customer/service"
+        "github.com/ricardominze/gobootrap/core/valueobject"
+        "github.com/ricardominze/gobootrap/infra/util"
+        "go.opentelemetry.io/otel"
+)
+
+type CustomerController struct {
+        util.HandlerMap
+        CustomerService *customer_service.CustomerService
+}
+
+func (h *CustomerController) MakeHandlers(router *http.ServeMux) <span class="cov0" title="0">{
+        h.MapHandlers(h, router)
+}</span>
+
+func NewCustomerController(CustomerService *customer_service.CustomerService) *CustomerController <span class="cov0" title="0">{
+        handle := &amp;CustomerController{CustomerService: CustomerService}
+        handle.HandlerMap = util.HandlerMap{}
+        return handle
+}</span>
+
+func (h *CustomerController) TestAction() http.HandlerFunc <span class="cov0" title="0">{
+        return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+
+                ctx := r.Context()
+
+                tr := otel.Tracer("CustomerController")
+                ctx, span := tr.Start(ctx, "TestAction")
+                defer span.End()
+
+                address := &amp;valueobject.Address{}
+                address.City = "Cidade"
+                address.Street = "Rua"
+                address.Zipcode = "123456789"
+
+                customer := &amp;customer_entity.Customer{}
+                customer.Name = "Ricardo"
+                customer.Address = address
+
+                h.CustomerService.Create(ctx, customer)
+
+                w.Write([]byte("TestAction =&gt;" + r.Method))
+        }</span>)
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package account_entity
+
+import (
+        errord "github.com/ricardominze/gobootrap/core/err"
+)
+
+type Account struct {
+        Id          int
+        IdCustomer  int
+        TypeAccount string
+        Balance     float64
+        Status      int
+}
+
+func NewAccount(id int, typeAccount string, idCustomer int) *Account <span class="cov0" title="0">{
+
+        return &amp;Account{
+                Id:          id,
+                IdCustomer:  idCustomer,
+                TypeAccount: typeAccount,
+        }
+}</span>
+
+func (o *Account) IsValid() error <span class="cov8" title="1">{
+
+        return nil
+}</span>
+
+func (o *Account) Taxes() error <span class="cov8" title="1">{
+
+        var value float64
+
+        if o.TypeAccount == "CC" </span><span class="cov8" title="1">{
+                value = 10.00
+        }</span>
+
+        <span class="cov8" title="1">if o.TypeAccount == "CP" </span><span class="cov8" title="1">{
+                value = 12.00
+        }</span>
+
+        <span class="cov8" title="1">if o.Balance &lt; value </span><span class="cov8" title="1">{
+                return errord.AccountErrorInsufficientBalance
+        }</span>
+        <span class="cov8" title="1">o.Balance -= value
+        return nil</span>
+}
+
+func (o *Account) Deposit(value float64) error <span class="cov8" title="1">{
+        if o.Status == 1 </span><span class="cov8" title="1">{
+                return errord.AccountErrorDepositClosed
+        }</span>
+        <span class="cov8" title="1">o.Balance += value
+        return nil</span>
+}
+
+func (o *Account) Withdraw(value float64) error <span class="cov8" title="1">{
+        if o.Balance &lt; value </span><span class="cov8" title="1">{
+                return errord.AccountErrorInsufficientBalance
+        }</span>
+        <span class="cov8" title="1">o.Balance -= value
+        return nil</span>
+}
+
+func (o *Account) CloseAccount() error <span class="cov8" title="1">{
+
+        if o.Balance &gt; 0.0 </span><span class="cov8" title="1">{
+                return errord.AccountErrorClosePositive
+        }</span>
+
+        <span class="cov8" title="1">if o.Balance &lt; 0.0 </span><span class="cov8" title="1">{
+                return errord.AccountErrorCloseNegative
+        }</span>
+
+        <span class="cov8" title="1">o.Status = 1
+
+        return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package account_service
+
+import (
+        "context"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        account_usecase "github.com/ricardominze/gobootrap/core/domain/account/usecase"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountService struct {
+        ucAccountGet      *account_usecase.AccountUseCaseGet
+        ucAccountOpen     *account_usecase.AccountUseCaseOpen
+        ucAccountClose    *account_usecase.AccountUseCaseClose
+        ucAccountTaxes    *account_usecase.AccountUseCaseTaxes
+        ucAccountDeposit  *account_usecase.AccountUseCaseDeposit
+        ucAccountBalance  *account_usecase.AccountUseCaseBalance
+        ucAccountWithdraw *account_usecase.AccountUseCaseWithdraw
+        ucAccountTransfer *account_usecase.AccountUseCaseTransfer
+}
+
+func NewAccountService(repository account_port.AccountIRepository) *AccountService <span class="cov8" title="1">{
+        return &amp;AccountService{
+                ucAccountGet:      account_usecase.NewAccountUseCaseGet(repository),
+                ucAccountTaxes:    account_usecase.NewAccountUseCaseTaxes(repository),
+                ucAccountOpen:     account_usecase.NewAccountUseCaseOpen(repository),
+                ucAccountClose:    account_usecase.NewAccountUseCaseClose(repository),
+                ucAccountDeposit:  account_usecase.NewAccountUseCaseDeposit(repository),
+                ucAccountWithdraw: account_usecase.NewAccountUseCaseWithdraw(repository),
+                ucAccountBalance:  account_usecase.NewAccountUseCaseBalance(repository),
+                ucAccountTransfer: account_usecase.NewAccountUseCaseTransfer(repository),
+        }
+}</span>
+
+func (o *AccountService) Get(ctx context.Context, id int) (*account_entity.Account, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Get")
+        defer span.End()
+
+        return o.ucAccountGet.Execute(ctx, id)
+}</span>
+
+func (o *AccountService) Taxes(ctx context.Context, account *account_entity.Account) error <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Taxes")
+        defer span.End()
+
+        return o.ucAccountTaxes.Execute(ctx, account)
+}</span>
+
+func (o *AccountService) Open(ctx context.Context, account *account_entity.Account) (*account_entity.Account, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Open")
+        defer span.End()
+
+        return o.ucAccountOpen.Execute(ctx, account)
+}</span>
+
+func (o *AccountService) Close(ctx context.Context, account *account_entity.Account) error <span class="cov0" title="0">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Close")
+        defer span.End()
+
+        return o.ucAccountClose.Execute(ctx, account)
+}</span>
+
+func (o *AccountService) Deposit(ctx context.Context, account *account_entity.Account, value float64) error <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Deposit")
+        defer span.End()
+
+        return o.ucAccountDeposit.Execute(ctx, account, value)
+}</span>
+
+func (o *AccountService) Withdraw(ctx context.Context, account *account_entity.Account, value float64) error <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Withdraw")
+        defer span.End()
+
+        return o.ucAccountWithdraw.Execute(ctx, account, value)
+}</span>
+
+func (o *AccountService) Transfer(ctx context.Context, accountSource *account_entity.Account, accountDestiny *account_entity.Account, value float64) error <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Transfer")
+        defer span.End()
+
+        return o.ucAccountTransfer.Execute(ctx, accountSource, accountDestiny, value)
+}</span>
+
+func (o *AccountService) Balance(ctx context.Context, account *account_entity.Account) (float64, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Balance")
+        defer span.End()
+
+        return o.ucAccountBalance.Execute(ctx, account.Id)
+}</span>
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package account_usecase
+
+import (
+        "context"
+
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountUseCaseBalance struct {
+        repository account_port.AccountIRepository
+}
+
+func NewAccountUseCaseBalance(repository account_port.AccountIRepository) *AccountUseCaseBalance <span class="cov8" title="1">{
+        return &amp;AccountUseCaseBalance{repository: repository}
+}</span>
+
+func (o *AccountUseCaseBalance) Execute(ctx context.Context, idAccount int) (float64, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountUseCaseBalance")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        account, err := o.repository.Get(ctx, idAccount)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return 0.00, err
+        }</span>
+
+        <span class="cov8" title="1">return account.Balance, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package account_usecase
+
+import (
+        "context"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountUseCaseClose struct {
+        repository account_port.AccountIRepository
+}
+
+func NewAccountUseCaseClose(repository account_port.AccountIRepository) *AccountUseCaseClose <span class="cov8" title="1">{
+        return &amp;AccountUseCaseClose{repository: repository}
+}</span>
+
+func (o *AccountUseCaseClose) Execute(ctx context.Context, account *account_entity.Account) error <span class="cov0" title="0">{
+
+        tr := otel.Tracer("AccountUseCaseClose")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        err := account.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        //Fechar conta.
+        <span class="cov0" title="0">err = account.CloseAccount()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">_, err = o.repository.Save(ctx, account)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov0" title="0">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package account_usecase
+
+import (
+        "context"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountUseCaseDeposit struct {
+        repository account_port.AccountIRepository
+}
+
+func NewAccountUseCaseDeposit(repository account_port.AccountIRepository) *AccountUseCaseDeposit <span class="cov8" title="1">{
+        return &amp;AccountUseCaseDeposit{repository: repository}
+}</span>
+
+func (o *AccountUseCaseDeposit) Execute(ctx context.Context, account *account_entity.Account, value float64) error <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountUseCaseDeposit")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        err := account.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        //Depositar valor na conta.
+        <span class="cov8" title="1">err = account.Deposit(value)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">_, err = o.repository.Save(ctx, account)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package account_usecase
+
+import (
+        "context"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountUseCaseGet struct {
+        repository account_port.AccountIRepository
+}
+
+func NewAccountUseCaseGet(repository account_port.AccountIRepository) *AccountUseCaseGet <span class="cov8" title="1">{
+        return &amp;AccountUseCaseGet{repository: repository}
+}</span>
+
+func (o *AccountUseCaseGet) Execute(ctx context.Context, id int) (*account_entity.Account, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountUseCaseGet")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        account, err := o.repository.Get(ctx, id)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return account, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package account_usecase
+
+import (
+        "context"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountUseCaseOpen struct {
+        repository account_port.AccountIRepository
+}
+
+func NewAccountUseCaseOpen(repository account_port.AccountIRepository) *AccountUseCaseOpen <span class="cov8" title="1">{
+        return &amp;AccountUseCaseOpen{repository: repository}
+}</span>
+
+func (o *AccountUseCaseOpen) Execute(ctx context.Context, account *account_entity.Account) (*account_entity.Account, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountUseCaseOpen")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        err := account.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        //Se o tipo de conta for conta corrente, adiciona R$ 50,00 na conta de bônus.
+        <span class="cov8" title="1">if account.TypeAccount == "CC" </span><span class="cov8" title="1">{
+                account.Balance = 50.00
+        }</span>
+
+        //Se o tipo de conta for conta poupança, adiciona R$ 150,00 na conta de bônus.
+        <span class="cov8" title="1">if account.TypeAccount == "CP" </span><span class="cov8" title="1">{
+                account.Balance = 150.00
+        }</span>
+
+        <span class="cov8" title="1">account, err = o.repository.Save(ctx, account)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return account, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package account_usecase
+
+import (
+        "context"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountUseCaseTaxes struct {
+        repository account_port.AccountIRepository
+}
+
+func NewAccountUseCaseTaxes(repository account_port.AccountIRepository) *AccountUseCaseTaxes <span class="cov8" title="1">{
+        return &amp;AccountUseCaseTaxes{repository: repository}
+}</span>
+
+func (o *AccountUseCaseTaxes) Execute(ctx context.Context, account *account_entity.Account) error <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountUseCaseTaxes")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        err := account.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        //Pagamento de faturas.
+        <span class="cov8" title="1">err = account.Taxes()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">_, err = o.repository.Save(ctx, account)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package account_usecase
+
+import (
+        "context"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountUseCaseTransfer struct {
+        repository account_port.AccountIRepository
+}
+
+func NewAccountUseCaseTransfer(repository account_port.AccountIRepository) *AccountUseCaseTransfer <span class="cov8" title="1">{
+        return &amp;AccountUseCaseTransfer{repository: repository}
+}</span>
+
+func (o *AccountUseCaseTransfer) Execute(ctx context.Context, accountSource *account_entity.Account, accountDestiny *account_entity.Account, value float64) error <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountUseCaseTransfer")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        err := accountSource.IsValid()
+        err = accountDestiny.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        //Saque da Conta Origem
+        <span class="cov8" title="1">err = accountSource.Withdraw(value)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        //Deposito na Conta Destino
+        <span class="cov8" title="1">err = accountDestiny.Deposit(value)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">_, err = o.repository.Save(ctx, accountSource)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">_, err = o.repository.Save(ctx, accountDestiny)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package account_usecase
+
+import (
+        "context"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        account_port "github.com/ricardominze/gobootrap/core/domain/account/port"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountUseCaseWithdraw struct {
+        repository account_port.AccountIRepository
+}
+
+func NewAccountUseCaseWithdraw(repository account_port.AccountIRepository) *AccountUseCaseWithdraw <span class="cov8" title="1">{
+        return &amp;AccountUseCaseWithdraw{repository: repository}
+}</span>
+
+func (o *AccountUseCaseWithdraw) Execute(ctx context.Context, account *account_entity.Account, value float64) error <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountUseCaseWithdraw")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        err := account.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        //Sacar valor da conta.
+        <span class="cov8" title="1">err = account.Withdraw(value)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">_, err = o.repository.Save(ctx, account)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package customer_entity
+
+import (
+        errord "github.com/ricardominze/gobootrap/core/err"
+        "github.com/ricardominze/gobootrap/core/valueobject"
+)
+
+type Customer struct {
+        Id      int
+        Name    string
+        Address *valueobject.Address
+}
+
+func NewCustomer(id int, name string, address *valueobject.Address) *Customer <span class="cov0" title="0">{
+
+        return &amp;Customer{
+                Id:      id,
+                Name:    name,
+                Address: address,
+        }
+}</span>
+
+func (o *Customer) IsValid() error <span class="cov8" title="1">{
+
+        if len(o.Name) == 0 </span><span class="cov0" title="0">{
+                return errord.CustomerErrorEmptyName
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (o *Customer) ChangeName(name string) <span class="cov8" title="1">{
+
+        o.Name = name
+}</span>
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package customer_service
+
+import (
+        "context"
+
+        customer_entity "github.com/ricardominze/gobootrap/core/domain/customer/entity"
+        customer_port "github.com/ricardominze/gobootrap/core/domain/customer/port"
+        customer_usecase "github.com/ricardominze/gobootrap/core/domain/customer/usecase"
+        "go.opentelemetry.io/otel"
+)
+
+type CustomerService struct {
+        ucCustomerGet    *customer_usecase.CustomerUseCaseGet
+        ucCustomerCreate *customer_usecase.CustomerUseCaseCreate
+}
+
+func NewCustomerService(repository customer_port.CustomerIRepository) *CustomerService <span class="cov8" title="1">{
+        return &amp;CustomerService{
+                ucCustomerGet:    customer_usecase.NewCustomerUseCaseGet(repository),
+                ucCustomerCreate: customer_usecase.NewCustomerUseCaseCreate(repository),
+        }
+}</span>
+
+func (o *CustomerService) Get(ctx context.Context, id int) (*customer_entity.Customer, error) <span class="cov0" title="0">{
+
+        tr := otel.Tracer("AccountService")
+        ctx, span := tr.Start(ctx, "Get")
+        defer span.End()
+
+        return o.ucCustomerGet.Execute(ctx, id)
+}</span>
+
+func (o *CustomerService) Create(ctx context.Context, customer *customer_entity.Customer) (*customer_entity.Customer, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("CustomerService")
+        ctx, span := tr.Start(ctx, "Create")
+        defer span.End()
+
+        customer, err := o.ucCustomerCreate.Execute(ctx, customer)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return customer, nil</span>
+}
+
+func (o *CustomerService) Save(ctx context.Context, customer *customer_entity.Customer) (*customer_entity.Customer, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("CustomerService")
+        ctx, span := tr.Start(ctx, "Save")
+        defer span.End()
+
+        customer, err := o.ucCustomerCreate.Execute(ctx, customer)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return customer, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package customer_usecase
+
+import (
+        "context"
+
+        entity "github.com/ricardominze/gobootrap/core/domain/customer/entity"
+        customer_port "github.com/ricardominze/gobootrap/core/domain/customer/port"
+        "go.opentelemetry.io/otel"
+)
+
+type CustomerUseCaseCreate struct {
+        repository customer_port.CustomerIRepository
+}
+
+func NewCustomerUseCaseCreate(repository customer_port.CustomerIRepository) *CustomerUseCaseCreate <span class="cov8" title="1">{
+        return &amp;CustomerUseCaseCreate{repository: repository}
+}</span>
+
+func (o *CustomerUseCaseCreate) Execute(ctx context.Context, customer *entity.Customer) (*entity.Customer, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("CustomerUseCaseCreate")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        err := customer.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">customer, err = o.repository.Save(ctx, customer)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return customer, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package customer_usecase
+
+import (
+        "context"
+
+        entity "github.com/ricardominze/gobootrap/core/domain/customer/entity"
+        customer_port "github.com/ricardominze/gobootrap/core/domain/customer/port"
+        "go.opentelemetry.io/otel"
+)
+
+type CustomerUseCaseGet struct {
+        repository customer_port.CustomerIRepository
+}
+
+func NewCustomerUseCaseGet(repository customer_port.CustomerIRepository) *CustomerUseCaseGet <span class="cov8" title="1">{
+        return &amp;CustomerUseCaseGet{repository: repository}
+}</span>
+
+func (o *CustomerUseCaseGet) Execute(ctx context.Context, id int) (*entity.Customer, error) <span class="cov0" title="0">{
+
+        tr := otel.Tracer("CustomerUseCaseGet")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        customer, err := o.repository.Get(ctx, id)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return customer, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package customer_usecase
+
+import (
+        "context"
+
+        entity "github.com/ricardominze/gobootrap/core/domain/customer/entity"
+        customer_port "github.com/ricardominze/gobootrap/core/domain/customer/port"
+        "go.opentelemetry.io/otel"
+)
+
+type CustomerUseCaseSave struct {
+        repository customer_port.CustomerIRepository
+}
+
+func NewCustomerUseCaseSave(repository customer_port.CustomerIRepository) *CustomerUseCaseSave <span class="cov0" title="0">{
+        return &amp;CustomerUseCaseSave{repository: repository}
+}</span>
+
+func (o *CustomerUseCaseSave) Execute(ctx context.Context, customer *entity.Customer) (*entity.Customer, error) <span class="cov0" title="0">{
+
+        tr := otel.Tracer("CustomerUseCaseSave")
+        ctx, span := tr.Start(ctx, "Execute")
+        defer span.End()
+
+        err := customer.IsValid()
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">customer, err = o.repository.Save(ctx, customer)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return customer, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">// Code generated by Wire. DO NOT EDIT.
+
+//go:generate go run -mod=mod github.com/google/wire/cmd/wire
+//go:build !wireinject
+// +build !wireinject
+
+package customer
+
+import (
+        "database/sql"
+        "github.com/ricardominze/gobootrap/core/domain/customer/service"
+        "github.com/ricardominze/gobootrap/infra/adapter"
+)
+
+// Injectors from customer_di.go:
+
+func NewCustomerDependenciesInjection(db *sql.DB) *customer_service.CustomerService <span class="cov0" title="0">{
+        customerRepository := adapter.NewCustomerRepository(db)
+        customerService := customer_service.NewCustomerService(customerRepository)
+        return customerService
+}</span>
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package valueobject
+
+type Address struct {
+        City    string
+        Street  string
+        Zipcode string
+}
+
+func NewAddress(city string, street string, zipcode string) *Address <span class="cov0" title="0">{
+
+        return &amp;Address{
+                City:    city,
+                Street:  street,
+                Zipcode: zipcode,
+        }
+}</span>
+
+func (o *Address) IsValid() error <span class="cov0" title="0">{
+
+        return nil
+}</span>
+
+func (o *Address) ChangeCity(city string) <span class="cov0" title="0">{
+
+        o.City = city
+}</span>
+
+func (o *Address) ChangeStreet(street string) <span class="cov0" title="0">{
+
+        o.Street = street
+}</span>
+
+func (o *Address) ChangeZipcode(zipcode string) <span class="cov0" title="0">{
+
+        o.Zipcode = zipcode
+}</span>
+</pre>
+		
+		<pre class="file" id="file18" style="display: none">package adapter
+
+import (
+        "context"
+        "database/sql"
+
+        account_entity "github.com/ricardominze/gobootrap/core/domain/account/entity"
+        "go.opentelemetry.io/otel"
+)
+
+type AccountRepository struct {
+        db *sql.DB
+}
+
+func NewAccountRepository(db *sql.DB) *AccountRepository <span class="cov8" title="1">{
+        return &amp;AccountRepository{db: db}
+}</span>
+
+func (re *AccountRepository) Get(ctx context.Context, id int) (*account_entity.Account, error) <span class="cov8" title="1">{
+
+        account := &amp;account_entity.Account{}
+
+        result := re.db.QueryRow("SELECT id, id_customer, type_account, balance, status FROM account WHERE id = ?", id)
+        result.Scan(&amp;account.Id, &amp;account.IdCustomer, &amp;account.TypeAccount, &amp;account.Balance, &amp;account.Status)
+
+        if result.Err() != nil </span><span class="cov0" title="0">{
+                return nil, result.Err()
+        }</span>
+
+        <span class="cov8" title="1">return account, nil</span>
+}
+
+func (re *AccountRepository) Save(ctx context.Context, account *account_entity.Account) (*account_entity.Account, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountRepository")
+        ctx, span := tr.Start(ctx, "Save")
+        defer span.End()
+
+        accountOri := &amp;account_entity.Account{}
+
+        result := re.db.QueryRow("SELECT id, id_customer, type_account, balance, status FROM account WHERE id = ?", account.Id)
+        result.Scan(&amp;accountOri.Id, &amp;accountOri.IdCustomer, &amp;accountOri.TypeAccount, &amp;accountOri.Balance, &amp;accountOri.Status)
+
+        if accountOri.Id == 0 </span><span class="cov8" title="1">{
+
+                _, err := re.create(ctx, account)
+
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, err
+                }</span>
+
+        } else<span class="cov8" title="1"> {
+
+                _, err := re.update(ctx, account)
+
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return account, nil</span>
+}
+
+func (re *AccountRepository) create(ctx context.Context, account *account_entity.Account) (*account_entity.Account, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountRepository")
+        _, span := tr.Start(ctx, "create")
+        defer span.End()
+
+        result, err := re.db.Exec("INSERT INTO account (id_customer, type_account, balance, status) VALUES (?, ?, ?, ?)", account.IdCustomer, account.TypeAccount, account.Balance, account.Status)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">lastInsertId, _ := result.LastInsertId()
+        account.Id = int(lastInsertId)
+
+        return account, nil</span>
+}
+
+func (re *AccountRepository) update(ctx context.Context, account *account_entity.Account) (*account_entity.Account, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("AccountRepository")
+        _, span := tr.Start(ctx, "create")
+        defer span.End()
+
+        _, err := re.db.Exec("UPDATE account SET id_customer=?, type_account=?, balance=?, status=? WHERE id=?", account.IdCustomer, account.TypeAccount, account.Balance, account.Status, account.Id)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return account, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file19" style="display: none">package adapter
+
+import (
+        "context"
+        "database/sql"
+
+        customer_entity "github.com/ricardominze/gobootrap/core/domain/customer/entity"
+        "github.com/ricardominze/gobootrap/core/valueobject"
+        "go.opentelemetry.io/otel"
+)
+
+type CustomerRepository struct {
+        db *sql.DB
+}
+
+func NewCustomerRepository(db *sql.DB) *CustomerRepository <span class="cov8" title="1">{
+        return &amp;CustomerRepository{db: db}
+}</span>
+
+func (re *CustomerRepository) Get(ctx context.Context, id int) (*customer_entity.Customer, error) <span class="cov0" title="0">{
+
+        tr := otel.Tracer("CustomerRepository")
+        ctx, span := tr.Start(ctx, "Get")
+        defer span.End()
+
+        customer := &amp;customer_entity.Customer{Address: &amp;valueobject.Address{}}
+
+        result := re.db.QueryRow("SELECT id, name, city, street, zipcode FROM customer WHERE id = ?", id)
+        result.Scan(&amp;customer.Id, &amp;customer.Name, &amp;customer.Address.City, &amp;customer.Address.Street, &amp;customer.Address.Zipcode)
+
+        if result.Err() != nil </span><span class="cov0" title="0">{
+                return nil, result.Err()
+        }</span>
+
+        <span class="cov0" title="0">return customer, nil</span>
+}
+
+func (re *CustomerRepository) Save(ctx context.Context, customer *customer_entity.Customer) (*customer_entity.Customer, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("CustomerRepository")
+        ctx, span := tr.Start(ctx, "Save")
+        defer span.End()
+
+        customerOri := &amp;customer_entity.Customer{Address: &amp;valueobject.Address{}}
+
+        result := re.db.QueryRow("SELECT id, name, city, street, zipcode FROM account WHERE id = ?", customer.Id)
+        result.Scan(&amp;customerOri.Id, &amp;customerOri.Name, &amp;customerOri.Address.City, &amp;customerOri.Address.Street, &amp;customerOri.Address.Zipcode)
+
+        if customerOri.Id == 0 </span><span class="cov8" title="1">{
+
+                _, err := re.create(ctx, customer)
+
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, err
+                }</span>
+
+        } else<span class="cov0" title="0"> {
+
+                _, err := re.update(ctx, customer)
+
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, err
+                }</span>
+        }
+
+        <span class="cov8" title="1">return customer, nil</span>
+}
+
+func (re *CustomerRepository) create(ctx context.Context, customer *customer_entity.Customer) (*customer_entity.Customer, error) <span class="cov8" title="1">{
+
+        tr := otel.Tracer("CustomerRepository")
+        _, span := tr.Start(ctx, "create")
+        defer span.End()
+
+        result, err := re.db.Exec("INSERT INTO customer (name, city, street, zipcode) VALUES (?, ?, ?, ?)", customer.Name, customer.Address.City, customer.Address.Street, customer.Address.Zipcode)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">lastInsertId, _ := result.LastInsertId()
+        customer.Id = int(lastInsertId)
+
+        return customer, nil</span>
+}
+
+func (re *CustomerRepository) update(ctx context.Context, customer *customer_entity.Customer) (*customer_entity.Customer, error) <span class="cov0" title="0">{
+
+        tr := otel.Tracer("CustomerRepository")
+        _, span := tr.Start(ctx, "update")
+        defer span.End()
+
+        _, err := re.db.Exec("UPDATE customer SET name = ?, city = ?, street = ?, zipcode = ? WHERE id = ?", customer.Name, customer.Address.City, customer.Address.Street, customer.Address.Zipcode, customer.Id)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov0" title="0">return customer, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file20" style="display: none">package middleware
+
+import (
+        "context"
+        "net/http"
+
+        "go.opentelemetry.io/otel"
+        "go.opentelemetry.io/otel/attribute"
+)
+
+func TelemetryMiddleware(ctx context.Context, next *http.ServeMux) *http.ServeMux <span class="cov0" title="0">{
+
+        newMux := http.NewServeMux()
+
+        newMux.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) </span><span class="cov0" title="0">{
+
+                tr := otel.Tracer("http-server")
+                ctx, span := tr.Start(ctx, "HTTP "+r.Method+" "+r.URL.Path)
+                defer span.End()
+
+                span.SetAttributes(
+                        attribute.String("http.method", r.Method),
+                        attribute.String("http.url", r.URL.String()),
+                )
+
+                reqWithCtx := r.WithContext(ctx)
+                next.ServeHTTP(w, reqWithCtx)
+
+        }</span>))
+
+        <span class="cov0" title="0">return newMux</span>
+}
+</pre>
+		
+		<pre class="file" id="file21" style="display: none">package util
+
+import (
+        "fmt"
+        "net/http"
+        "reflect"
+        "regexp"
+        "strings"
+)
+
+type HandlerToMap interface {
+        MakeHandlers(*http.ServeMux)
+}
+
+type HandlerMap struct {
+        SufixHandler string
+        SufixMethod  string
+        SufixParams  string
+        Routes       []string
+}
+
+func (h *HandlerMap) addPath(path string) <span class="cov0" title="0">{
+        h.Routes = append(h.Routes, path)
+}</span>
+
+func (h *HandlerMap) GetPaths() []string <span class="cov0" title="0">{
+        return h.Routes
+}</span>
+
+func (h *HandlerMap) configSufixs() <span class="cov0" title="0">{
+
+        if h.SufixHandler == "" </span><span class="cov0" title="0">{
+                h.SufixHandler = "Controller"
+        }</span>
+
+        <span class="cov0" title="0">if h.SufixMethod == "" </span><span class="cov0" title="0">{
+                h.SufixMethod = "Action"
+        }</span>
+
+        <span class="cov0" title="0">if h.SufixParams == "" </span><span class="cov0" title="0">{
+                h.SufixParams = "Path"
+        }</span>
+}
+
+func (h *HandlerMap) pathHandler(input string) string <span class="cov0" title="0">{
+        re := regexp.MustCompile(`([a-z])([A-Z])`)
+        result := re.ReplaceAllString(input, `$1-$2`)
+        return strings.ToLower(result)
+}</span>
+
+func (h *HandlerMap) MapHandlers(hm HandlerToMap, router *http.ServeMux) <span class="cov0" title="0">{
+
+        h.configSufixs()
+
+        handlerType := reflect.TypeOf(hm)
+        handlerValue := reflect.ValueOf(hm)
+        handlerName := handlerType.Elem().Name()
+        basePath := h.pathHandler(strings.Replace(handlerName, h.SufixHandler, "", 1))
+
+        for i := 0; i &lt; handlerType.NumMethod(); i++ </span><span class="cov0" title="0">{
+                methodName := handlerType.Method(i).Name
+                if strings.Contains(methodName, h.SufixMethod) </span><span class="cov0" title="0">{
+                        method := handlerValue.MethodByName(methodName)
+                        methodNoSufix := strings.Replace(methodName, h.SufixMethod, "", 1)
+                        methodPath := h.pathHandler(methodNoSufix)
+                        methodParams := handlerValue.MethodByName(methodNoSufix + h.SufixParams)
+                        if method.Type().NumOut() == 1 &amp;&amp; method.Type().Out(0) == reflect.TypeOf((http.HandlerFunc)(nil)) </span><span class="cov0" title="0">{
+                                if handleFunction, ok := method.Call(nil)[0].Interface().(http.HandlerFunc); ok </span><span class="cov0" title="0">{
+                                        path := "/" + basePath + "/" + methodPath
+                                        if methodParams.IsValid() </span><span class="cov0" title="0">{
+                                                path = "/" + basePath + "/" + methodPath + "/" + methodParams.Call(nil)[0].String()
+                                        }</span>
+                                        <span class="cov0" title="0">h.addPath(path)
+                                        router.HandleFunc(path, handleFunction)</span>
+                                } else<span class="cov0" title="0"> {
+                                        fmt.Println("The return type is not compatible with http.HandlerFunc")
+                                }</span>
+                        } else<span class="cov0" title="0"> {
+                                fmt.Println("The method (" + handlerType.Method(i).Name + ") does not a http.HandlerFunc")
+                        }</span>
+                }
+        }
+}
+</pre>
+		
+		<pre class="file" id="file22" style="display: none">package util
+
+import (
+        "bytes"
+        "encoding/json"
+        "io"
+        "net/http"
+        "net/url"
+        "strings"
+)
+
+const APPLICATION_FORM string = "application/x-www-form-urlencoded"
+const APPLICATION_JSON string = "application/json"
+
+type StructMap struct {
+        content  []byte
+        request  *http.Request
+        response http.ResponseWriter
+}
+
+func NewStructMap() *StructMap <span class="cov0" title="0">{
+        StructMap := &amp;StructMap{
+                content:  []byte{},
+                request:  &amp;http.Request{},
+                response: nil,
+        }
+        return StructMap
+}</span>
+
+func (o *StructMap) GetRequestHeaderValue(key string, r *http.Request) string <span class="cov0" title="0">{
+
+        var value string
+        for _, val := range r.Header[key] </span><span class="cov0" title="0">{
+                value = val
+        }</span>
+        <span class="cov0" title="0">return value</span>
+}
+
+func (o *StructMap) LoadData(response http.ResponseWriter, request *http.Request) []byte <span class="cov0" title="0">{
+
+        var content []byte
+        defer request.Body.Close()
+
+        switch request.Method </span>{
+        case "GET", "DELETE":<span class="cov0" title="0">
+                // field := mux.Vars(request)
+                reference := make(map[string]interface{})
+                // for key, value := range field {
+                //         reference[key] = value
+                // }
+                query := request.URL.Query()
+                params, _ := url.ParseQuery(query.Encode())
+                slice := []string{}
+                for key, values := range params </span><span class="cov0" title="0">{
+                        _, exists := reference[key]
+                        if !exists </span><span class="cov0" title="0">{
+                                if len(values) &gt; 1 </span><span class="cov0" title="0">{
+                                        slice = append(slice, values...)
+                                        reference[key] = strings.Join(slice, ",")
+                                }</span> else<span class="cov0" title="0"> {
+                                        for key, value := range params </span><span class="cov0" title="0">{
+                                                reference[key] = strings.Join(value, "")
+                                        }</span>
+                                }
+                        }
+                }
+                <span class="cov0" title="0">content, _ = json.Marshal(reference)</span>
+        case "PUT", "POST":<span class="cov0" title="0">
+                switch o.GetRequestHeaderValue("Content-Type", request) </span>{
+                case APPLICATION_FORM:<span class="cov0" title="0">
+                        request.ParseForm()
+                        contentMap := make(map[string]string)
+                        for key, values := range request.Form </span><span class="cov0" title="0">{
+                                for _, value := range values </span><span class="cov0" title="0">{
+                                        contentMap[key] = value
+                                }</span>
+                        }
+                        <span class="cov0" title="0">content, _ = json.Marshal(contentMap)</span>
+                case APPLICATION_JSON:<span class="cov0" title="0">
+                        content, _ = io.ReadAll(request.Body)
+                        request.Body = io.NopCloser(bytes.NewBuffer(content))
+                        if request.Method == "PUT" </span><span class="cov0" title="0">{
+                                // field := mux.Vars(request)
+                                reference := make(map[string]interface{})
+                                json.Unmarshal(content, &amp;reference)
+
+                                // if len(field["id"]) &gt; 0 {
+                                //         reference["id"] = field["id"]
+                                // }
+
+                                content, _ = json.Marshal(reference)
+                        }</span>
+                }
+        }
+        <span class="cov0" title="0">return content</span>
+}
+
+func (o *StructMap) BindData(reference interface{}, content []byte) error <span class="cov0" title="0">{
+
+        return json.Unmarshal(content, reference)
+}</span>
+
+func (o *StructMap) BindDataReq(response http.ResponseWriter, request *http.Request, reference interface{}) error <span class="cov0" title="0">{
+
+        content := o.LoadData(response, request)
+        return o.BindData(reference, content)
+}</span>
+
+func (o *StructMap) GenericStruct(content []byte) map[string]interface{} <span class="cov0" title="0">{
+
+        reference := make(map[string]interface{})
+        json.Unmarshal(content, &amp;reference)
+        return reference
+}</span>
+</pre>
+		
+		<pre class="file" id="file23" style="display: none">package main
+
+import (
+        "context"
+        "database/sql"
+        "fmt"
+        "log"
+        "net/http"
+        "os"
+
+        "github.com/joho/godotenv"
+        "github.com/ricardominze/gobootrap/app"
+        "github.com/ricardominze/gobootrap/core/domain/customer"
+        "github.com/ricardominze/gobootrap/infra/middleware"
+        "go.opentelemetry.io/otel"
+        "go.opentelemetry.io/otel/exporters/otlp/otlptrace"
+        "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
+        "go.opentelemetry.io/otel/sdk/resource"
+        "go.opentelemetry.io/otel/sdk/trace"
+        semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
+
+        // _ "github.com/go-sql-driver/mysql" //Driver MySQL
+        // _ "github.com/godror/godror"       //Driver Oracle
+        // _ "github.com/lib/pq"              //Driver PostgreSQL
+        _ "github.com/mattn/go-sqlite3" //Driver SQLite
+)
+
+func initTracer(ctx context.Context) (func(), context.Context) <span class="cov0" title="0">{
+
+        /***************************************************************************
+        Configura o exportador OTLP para enviar traces para o endpoint especificado.
+        ****************************************************************************/
+
+        exporter, err := otlptrace.New(ctx, otlptracehttp.NewClient(
+                otlptracehttp.WithEndpoint("localhost:4318"),
+                otlptracehttp.WithInsecure(),
+        ))
+
+        if err != nil </span><span class="cov0" title="0">{
+                log.Fatal(err)
+        }</span>
+
+        /*********************************************************************
+        Define atributos que identificam o serviço no sistema de rastreamento.
+        **********************************************************************/
+
+        <span class="cov0" title="0">resources := resource.NewWithAttributes(
+                semconv.SchemaURL, //URL do esquema semântico para atributos padronizados (fornecido pelo OpenTelemetry).
+                semconv.ServiceNameKey.String("Bootrap-Telemetry")) //Define o nome do serviço
+
+        /**************************************************************************************************************************
+        Configura o provedor de rastreamento (Tracer Provider), que é responsável por gerenciar os spans e enviá-los ao exportador.
+        ***************************************************************************************************************************/
+
+        traceProvider := trace.NewTracerProvider( //Cria o Tracer Provider.
+                trace.WithBatcher(exporter),   //Configura o exportador para enviar os dados em lotes (batch), otimizando o desempenho.
+                trace.WithResource(resources), //Anexa os atributos definidos (nome do serviço, etc.) aos spans.
+        )
+
+        /******************************************************************************
+        Define o Tracer Provider configurado como o provedor global para OpenTelemetry.
+        Permite que qualquer parte do código use otel.Tracer para criar spans sem
+        precisar configurar novamente o provedor.
+        *******************************************************************************/
+
+        otel.SetTracerProvider(traceProvider)
+
+        /**************************************************************************************
+                func() - Retorna uma função de limpeza para desligar o Tracer Provider corretamente.
+                ctx - Retorna o contexto (ctx) atualizado para ser usado em outras partes do sistema.
+        /**************************************************************************************/
+
+        return (func() </span><span class="cov0" title="0">{
+                err := traceProvider.Shutdown(ctx)
+                if err != nil </span><span class="cov0" title="0">{
+                        return
+                }</span>
+        }), ctx
+}
+
+func main() <span class="cov0" title="0">{
+
+        /******
+        Context
+        *******/
+
+        ctx := context.Background()
+
+        /**********
+        Environment
+        ***********/
+
+        godotenv.Load(".env")
+
+        /*******
+        Database
+        ********/
+
+        db, err := sql.Open(os.Getenv("DATABASE"), os.Getenv("DBSTRING"))
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println("Database Error:", err)
+                return
+        }</span>
+        <span class="cov0" title="0">defer db.Close()
+
+        /*********
+         Telemetry
+        /*********/
+
+        cleanup, ctx := initTracer(ctx)
+        defer cleanup()
+        tracer := otel.Tracer("BOOTRAP")
+        ctx, span := tracer.Start(ctx, "main")
+        defer span.End()
+
+        /****
+        Ports
+        *****/
+
+        mux := http.NewServeMux()
+        mux = middleware.TelemetryMiddleware(ctx, mux)
+        app.NewCustomerController(customer.NewCustomerDependenciesInjection(db)).MakeHandlers(mux)
+
+        /**
+        Run
+        ***/
+
+        fmt.Printf("Server is listening on port %s\n", os.Getenv("SERVICE_PORT"))
+        err = http.ListenAndServe(":"+os.Getenv("SERVICE_PORT"), mux)
+
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Printf("ERR: %s", err.Error())
+        }</span>
+
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 5s  # Intervalo para capturar métricas
+
+scrape_configs:
+  - job_name: 'gobootstrap'
+    static_configs:
+     - targets: ['gobootstrap:8000']
+
+  # Configuração para capturar métricas do próprio Prometheus
+  # - job_name: 'prometheus'
+  #   static_configs:
+  #     - targets: ['prometheus:9090']
+
+  # Configuração para capturar métricas de outros serviços (exemplo)
+  # - job_name: 'jaeger'
+  #   static_configs:
+  #     - targets: ['jaeger:14268']
