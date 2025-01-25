@@ -4,31 +4,32 @@ Este projeto foi desenvolvido com o objetivo de estudar e aplicar, de forma prá
 
 ### ⚙️ Práticas Utilizadas
 
-- ![](./assets/hexagonal.png){:height="50px" width="70px"} **Arquitetura Hexagonal**  
+- <img src="./assets/hexagonal.png" width="70"> **Arquitetura Hexagonal**  
   - Implementação dos princípios fundamentais da Arquitetura Hexagonal (Ports e Adapters).
     <br>
-- ![](./assets/goreflection.png){:height="50px" width="70px"} **Reflection**  
+- <img src="./assets/goreflection.png" width="70"> **Reflection**  
   - Utilização do arquivo `util/handler_map.go` para mapear automaticamente funções de manipulação `Handlers`.  
     <br>
-- ![](./assets/makefile.png){:height="30px" width="50px"} **Makefile**  
+- <img src="./assets/makefile.png" width="50"> **Makefile**  
   - Comandos para facilitar a execução de tarefas no projeto.  
 
 ### 🛠️ Ferramentas Utilizadas 
 
-- ![](./assets/gogoose.png){:height="30px" width="35px"} **Goose** (SQL Migration)
+- <img src="./assets/gogoose.png" width="35"> **Goose** (SQL Migration)
   - Criação e execução de migrações.  
     <br>
-- ![](./assets/googlewire.png){:height="30px" width="45px"} **Wire** (Injeção de Dependências)
+- <img src="./assets/googlewire.png" width="45"> **Wire** (Injeção de Dependências)
   - Arquivos para configuração de injeção com Google Wire.  
 
 ### 🕵️‍♂️ Observabilidade
 
-- ![](./assets/otelemetry.jpg){:height="50px" width="30px"} **OpenTelemetry**  
+- <img src="./assets/otelemetry.jpg" width="30"> **OpenTelemetry**  
   - Rastreamento de código com exportação via OTLP.  
-- ![](./assets/jaeger.jpeg){:height="50px" width="30px"} **Jaeger**
+- <img src="./assets/jaeger.jpeg" width="30"> **Jaeger**
   - Integração com o Jaeger para análise de rastreamento.  
 
 
 ### 🧪 Testes
 
-- ![](./assets/gotest.png){:height="50px" width="45px"} **Testes Unitários**: Implementação de testes para validar as funcionalidades.
+- <img src="./assets/gotest.png" width="45"> **Testes Unitários**: Implementação de testes para validar as funcionalidades.
+
