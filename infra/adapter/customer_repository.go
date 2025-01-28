@@ -24,7 +24,7 @@ func (re *CustomerRepository) Get(ctx context.Context, id int) (*customer_entity
 
 	customer := &customer_entity.Customer{Address: &valueobject.Address{}}
 
-	result := re.db.QueryRowContext(ctx, "SELECT id, name, city, street, zipcode FROM customer WHERE id = ?", id)
+	result := re.db.QueryRowContext(ctx, `SELECT id, name, city, street, zipcode FROM customer WHERE id = $1`, id)
 	result.Scan(&customer.Id, &customer.Name, &customer.Address.City, &customer.Address.Street, &customer.Address.Zipcode)
 
 	if result.Err() != nil {
@@ -39,29 +39,20 @@ func (re *CustomerRepository) Save(ctx context.Context, customer *customer_entit
 	ctx, span := telemetry.MakeTraceCall(ctx)
 	defer span.End()
 
-	customerOri := &customer_entity.Customer{Address: &valueobject.Address{}}
+	var err error
+	var newCustomer *customer_entity.Customer
 
-	result := re.db.QueryRowContext(ctx, "SELECT id, name, city, street, zipcode FROM customer WHERE id = ?", customer.Id)
-	result.Scan(&customerOri.Id, &customerOri.Name, &customerOri.Address.City, &customerOri.Address.Street, &customerOri.Address.Zipcode)
-
-	if customerOri.Id == 0 {
-
-		_, err := re.create(ctx, customer)
-
-		if err != nil {
-			return nil, err
-		}
-
+	if customer.Id == 0 {
+		newCustomer, err = re.create(ctx, customer)
 	} else {
-
-		_, err := re.update(ctx, customer)
-
-		if err != nil {
-			return nil, err
-		}
+		newCustomer, err = re.update(ctx, customer)
 	}
 
-	return customer, nil
+	if err != nil {
+		return nil, err
+	}
+
+	return newCustomer, nil
 }
 
 func (re *CustomerRepository) create(ctx context.Context, customer *customer_entity.Customer) (*customer_entity.Customer, error) {
@@ -69,14 +60,8 @@ func (re *CustomerRepository) create(ctx context.Context, customer *customer_ent
 	_, span := telemetry.MakeTraceCall(ctx)
 	defer span.End()
 
-	result, err := re.db.ExecContext(ctx, "INSERT INTO customer (name, city, street, zipcode) VALUES (?, ?, ?, ?)", customer.Name, customer.Address.City, customer.Address.Street, customer.Address.Zipcode)
-
-	if err != nil {
-		return nil, err
-	}
-
-	lastInsertId, _ := result.LastInsertId()
-	customer.Id = int(lastInsertId)
+	result := re.db.QueryRowContext(ctx, `INSERT INTO customer (name, city, street, zipcode) VALUES ($1, $2, $3, $4) RETURNING id`, customer.Name, customer.Address.City, customer.Address.Street, customer.Address.Zipcode)
+	result.Scan(&customer.Id)
 
 	return customer, nil
 }
@@ -86,7 +71,7 @@ func (re *CustomerRepository) update(ctx context.Context, customer *customer_ent
 	_, span := telemetry.MakeTraceCall(ctx)
 	defer span.End()
 
-	_, err := re.db.ExecContext(ctx, "UPDATE customer SET name = ?, city = ?, street = ?, zipcode = ? WHERE id = ?", customer.Name, customer.Address.City, customer.Address.Street, customer.Address.Zipcode, customer.Id)
+	_, err := re.db.ExecContext(ctx, `UPDATE customer SET name = $1, city = $2, street = $3, zipcode = $4 WHERE id = $5`, customer.Name, customer.Address.City, customer.Address.Street, customer.Address.Zipcode, customer.Id)
 
 	if err != nil {
 		return nil, err

@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/joho/godotenv"
-	_ "github.com/mattn/go-sqlite3" //Driver SQLite
 	"github.com/pressly/goose"
 	account_entity "github.com/ricardominze/gobootstrap/core/domain/account/entity"
 	account_service "github.com/ricardominze/gobootstrap/core/domain/account/service"
@@ -16,6 +15,9 @@ import (
 	"github.com/ricardominze/gobootstrap/core/valueobject"
 	"github.com/ricardominze/gobootstrap/infra/adapter"
 	"github.com/stretchr/testify/suite"
+
+	// _ "github.com/mattn/go-sqlite3" //Driver SQLite
+	_ "github.com/lib/pq" //Driver PostgreSQL
 )
 
 type AccountServiceIntegrationSuite struct {
@@ -31,9 +33,9 @@ type AccountServiceIntegrationSuite struct {
 
 // Criando a Suite de Testes
 func TestAccountServiceIntegrationSuite(t *testing.T) {
-	err := godotenv.Load("../../../.env.test")
+	err := godotenv.Load("../../../.env")
 	if err != nil {
-		t.Fatalf("Error loading .env.test file: %v", err)
+		t.Fatalf("Error loading .env file: %v", err)
 	}
 	suite.Run(t, &AccountServiceIntegrationSuite{})
 }
@@ -244,4 +246,30 @@ func (st *AccountServiceIntegrationSuite) TestAccountServiceTransfer() {
 	balance2, err := st.accountService.Balance(st.ctx, account2.Id)
 	st.Nil(err)
 	st.Equal(balance2, 60.00)
+}
+
+//=======================================
+//Caso de Teste: Serviço de Transferencia
+//=======================================
+
+func (st *AccountServiceIntegrationSuite) TestAccountServiceClose() {
+
+	//Create Customer
+	customer, err := st.customerService.Create(st.ctx, st.customer)
+	st.Nil(err)
+	st.Equal(customer.Name, st.customer.Name)
+
+	//Ao criar uma conta do tipo Conta-Corrente o cliente recebe um saldo promocional de 50.00
+
+	st.account.TypeAccount = "CC"
+	st.account.IdCustomer = customer.Id
+	st.account.Status = 0
+	account, err := st.accountService.Open(st.ctx, st.account)
+
+	st.Nil(err)
+	st.Equal(account.Balance, 50.00)
+
+	st.accountService.Withdraw(st.ctx, account, 50.00)
+	err = st.accountService.Close(st.ctx, account)
+	st.Nil(err)
 }

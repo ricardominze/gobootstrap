@@ -41,5 +41,5 @@ Este projeto foi desenvolvido com o objetivo de estudar e aplicar, de forma prá
 
 ### 🛠️ Ferramentas Utilizadas 
 
-- <img src="./assets/makefile.png" width="50"> **Makefile**  
+- <img src="./assets/makefile.png" width="30"> **Makefile**  
   - Comandos para facilitar a execução de tarefas no projeto.  

@@ -20,7 +20,7 @@ func (re *AccountRepository) Get(ctx context.Context, id int) (*account_entity.A
 
 	account := &account_entity.Account{}
 
-	result := re.db.QueryRowContext(ctx, "SELECT id, id_customer, type_account, balance, status FROM account WHERE id = ?", id)
+	result := re.db.QueryRowContext(ctx, "SELECT id, id_customer, type_account, balance, status FROM account WHERE id = $1", id)
 	result.Scan(&account.Id, &account.IdCustomer, &account.TypeAccount, &account.Balance, &account.Status)
 
 	if result.Err() != nil {
@@ -35,29 +35,20 @@ func (re *AccountRepository) Save(ctx context.Context, account *account_entity.A
 	ctx, span := telemetry.MakeTraceCall(ctx)
 	defer span.End()
 
-	accountOri := &account_entity.Account{}
+	var err error
+	var newAccount *account_entity.Account
 
-	result := re.db.QueryRowContext(ctx, "SELECT id, id_customer, type_account, balance, status FROM account WHERE id = ?", account.Id)
-	result.Scan(&accountOri.Id, &accountOri.IdCustomer, &accountOri.TypeAccount, &accountOri.Balance, &accountOri.Status)
-
-	if accountOri.Id == 0 {
-
-		_, err := re.create(ctx, account)
-
-		if err != nil {
-			return nil, err
-		}
-
+	if account.Id == 0 {
+		newAccount, err = re.create(ctx, account)
 	} else {
-
-		_, err := re.update(ctx, account)
-
-		if err != nil {
-			return nil, err
-		}
+		newAccount, err = re.update(ctx, account)
 	}
 
-	return account, nil
+	if err != nil {
+		return nil, err
+	}
+
+	return newAccount, nil
 }
 
 func (re *AccountRepository) create(ctx context.Context, account *account_entity.Account) (*account_entity.Account, error) {
@@ -65,14 +56,8 @@ func (re *AccountRepository) create(ctx context.Context, account *account_entity
 	_, span := telemetry.MakeTraceCall(ctx)
 	defer span.End()
 
-	result, err := re.db.ExecContext(ctx, "INSERT INTO account (id_customer, type_account, balance, status) VALUES (?, ?, ?, ?)", account.IdCustomer, account.TypeAccount, account.Balance, account.Status)
-
-	if err != nil {
-		return nil, err
-	}
-
-	lastInsertId, _ := result.LastInsertId()
-	account.Id = int(lastInsertId)
+	result := re.db.QueryRowContext(ctx, `INSERT INTO account (id_customer, type_account, balance, status) VALUES ($1, $2, $3, $4) RETURNING id`, account.IdCustomer, account.TypeAccount, account.Balance, account.Status)
+	result.Scan(&account.Id)
 
 	return account, nil
 }
@@ -82,7 +67,7 @@ func (re *AccountRepository) update(ctx context.Context, account *account_entity
 	_, span := telemetry.MakeTraceCall(ctx)
 	defer span.End()
 
-	_, err := re.db.ExecContext(ctx, "UPDATE account SET id_customer=?, type_account=?, balance=?, status=? WHERE id=?", account.IdCustomer, account.TypeAccount, account.Balance, account.Status, account.Id)
+	_, err := re.db.ExecContext(ctx, `UPDATE account SET id_customer=$1, type_account=$2, balance=$3, status=$4 WHERE id=$5`, account.IdCustomer, account.TypeAccount, account.Balance, account.Status, account.Id)
 
 	if err != nil {
 		return nil, err

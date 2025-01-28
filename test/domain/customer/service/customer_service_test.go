@@ -7,13 +7,15 @@ import (
 	"testing"
 
 	"github.com/joho/godotenv"
-	_ "github.com/mattn/go-sqlite3" //Driver SQLite
 	"github.com/pressly/goose"
 	customer_entity "github.com/ricardominze/gobootstrap/core/domain/customer/entity"
 	customer_service "github.com/ricardominze/gobootstrap/core/domain/customer/service"
 	"github.com/ricardominze/gobootstrap/core/valueobject"
 	"github.com/ricardominze/gobootstrap/infra/adapter"
 	"github.com/stretchr/testify/suite"
+
+	// _ "github.com/mattn/go-sqlite3" //Driver SQLite
+	_ "github.com/lib/pq" //Driver PostgreSQL
 )
 
 type CustomerServiceIntegrationSuite struct {
@@ -26,9 +28,9 @@ type CustomerServiceIntegrationSuite struct {
 
 // Criando a Suite de Testes
 func TestCustomerServiceIntegrationSuite(t *testing.T) {
-	err := godotenv.Load("../../../.env.test")
+	err := godotenv.Load("../../../.env")
 	if err != nil {
-		t.Fatalf("Error loading .env.test file: %v", err)
+		t.Fatalf("Error loading .env file: %v", err)
 	}
 	suite.Run(t, &CustomerServiceIntegrationSuite{})
 }

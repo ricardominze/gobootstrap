@@ -9,7 +9,6 @@ import (
 
 	"github.com/XSAM/otelsql"
 	"github.com/joho/godotenv"
-	_ "github.com/mattn/go-sqlite3" //Driver SQLite
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/ricardominze/gobootstrap/api"
@@ -18,9 +17,11 @@ import (
 	"github.com/ricardominze/gobootstrap/infra/adapter"
 	"github.com/ricardominze/gobootstrap/infra/middleware"
 	"github.com/ricardominze/gobootstrap/infra/telemetry"
+
 	// _ "github.com/go-sql-driver/mysql" //Driver MySQL
 	// _ "github.com/godror/godror"       //Driver Oracle
-	// _ "github.com/lib/pq"              //Driver PostgreSQL
+	// _ "github.com/mattn/go-sqlite3" //Driver SQLite
+	_ "github.com/lib/pq" //Driver PostgreSQL
 )
 
 // Prometheus Global Vars
@@ -67,6 +68,11 @@ func main() {
 		return
 	}
 	defer db.Close()
+
+	//Roda as Migrations
+	// if err := goose.Up(db, os.Getenv("MIGRATION_DIR")); err != nil {
+	// 	log.Fatalf("Falha ao rodar migrations: %v", err)
+	// }
 
 	// Jaeger Trace
 

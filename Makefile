@@ -1,4 +1,4 @@
-APP_NAME  = bank
+APP_NAME  = gobootstrap
 BUILD_DIR = build
 
 run:	
@@ -50,6 +50,9 @@ migratereset:
 		@echo "Migrations DOWN..."
 		@goose reset
 
+migration:
+		@goose -s create $(n) sql
+
 wire:
 		@echo "Google Wire Dependencies Injection..."
 		@wire core/domain/account/account_di.go
@@ -65,8 +68,9 @@ h:
 	@echo "  make fmt   	    - Formata o código"
 	@echo "  make clean 	    - Limpa arquivos gerados"		
 	@echo "  make migrateup    - Roda as Migrations"
-	@echo "  make migratereset - Reseta as Migrations"
 	@echo "  make migratedown  - Rollback das Migrations"
+	@echo "  make migratereset - Reseta as Migrations"
+	@echo "  make migration 	- Cria Migration"
 	@echo "  make wire  	    - Criar Injecao de Dependencias Wire"
 	@echo "  make cover        - Relatorio de Cobertura de Testes"
 	@echo "  make benchmark    - Executa Benchmarks"
