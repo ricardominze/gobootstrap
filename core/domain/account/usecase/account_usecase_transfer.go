@@ -22,6 +22,11 @@ func (o *AccountUseCaseTransfer) Execute(ctx context.Context, accountSource *acc
 	defer span.End()
 
 	err := accountSource.IsValid()
+
+	if err != nil {
+		return err
+	}
+
 	err = accountDestiny.IsValid()
 
 	if err != nil {

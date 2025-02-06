@@ -1,10 +1,39 @@
 services:
 
-  gobootstrap:
-    build: .
-    container_name: gobootstrap
-    ports: 
-      - "8000:8000"
+  # gobootstrap:
+  #   build: ./../.
+  #   container_name: gobootstrap
+  #   ports: 
+  #     - "8000:8000"
+  #   networks:
+  #     - gobootstrap-network
+
+  postgres:
+    image: postgres:15.3-alpine
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: bank
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: root
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+    networks:
+      - gobootstrap-network
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "rm@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "root"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
     networks:
       - gobootstrap-network
 
@@ -52,6 +81,7 @@ services:
       - gobootstrap-network
 
 volumes:
+  pgdata:
   grafana-data:
 
 networks:
