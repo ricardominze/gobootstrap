@@ -58,7 +58,7 @@ func main() {
 	// Registro de Tracer no Banco de Dados.
 	driverName, err := otelsql.Register(os.Getenv("DATABASE"), otelsql.WithAttributes())
 	if err != nil {
-		fmt.Println("Failed to register otel driver: %v", err)
+		fmt.Printf("Failed to register otel driver: %v", err)
 		return
 	}
 
