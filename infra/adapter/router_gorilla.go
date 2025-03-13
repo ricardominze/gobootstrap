@@ -28,9 +28,13 @@ func (g *RouterGorilla) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	g.router.ServeHTTP(w, r)
 }
 
+func (g *RouterGorilla) MiddlewareToFunc(m util.Middleware) mux.MiddlewareFunc {
+	return mux.MiddlewareFunc(m)
+}
+
 func (g *RouterGorilla) Use(mw ...util.Middleware) {
 	for _, v := range mw {
-		g.middleware = append(g.middleware, v)
+		g.router.Use(g.MiddlewareToFunc(v))
 	}
 }
 
