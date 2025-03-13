@@ -20,6 +20,7 @@ BUILD_DIR = build
 all:
 	@echo "\e[1;34m Comandos disponíveis: \e[0m"
 	@echo "  make portl   	      	  - 🚪 Lista Portas em uso."
+	@echo "  make dps   	          - 📋 Lista Containers em Execução."
 	@echo "  make run   	          - 🏃 Executa a Aplicacao."
 	@echo "  make rundock   	  - 📦 Executa Containers \e[1;34mDocker\e[0m (Jaeger, Prometheus, Grafana)."
 	@echo "  make stopdock   	  - 📦 Para Containers \e[1;34mDocker\e[0m (Jaeger, Prometheus, Grafana)."
@@ -47,6 +48,9 @@ portl:
 run:
 	@echo "Executando Aplicação..."
 	@go run main.go 
+
+dps:
+	@docker ps | cut -c 1-$(shell tput cols)
 
 rundock:	
 	@echo "Executando Containers(Jaeger, Prometheus, Grafana)..."
